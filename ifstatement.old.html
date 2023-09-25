@@ -13,10 +13,10 @@
 		<!-- <script src="js/notes.js"></script> -->
 		
 		
-		
+<!-- 		
 		
 		<div id="greenwheel" style="display:none">
-			<!-- wheel not working -->
+
 			<svg width="134" height="134" viewBox="0 0 700 700" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<g filter="url(#filter0_d_503_62)">
 				<path d="M201.295 24.5185C243.101 13.3167 287.099 13.16 328.984 24.0639L303.79 120.838C278.659 114.296 252.261 114.39 227.177 121.111L201.295 24.5185Z" fill="#FF7878"/>
@@ -191,11 +191,29 @@
 				</defs>
 			</svg>
 		</div>
-				
+				 -->
 
 	
+				 <audio id="audioPlayer" src="c-major-scale.mp3"></audio>
 
-		<canvas id="newCanvas" style="background-color:rgb(59, 59, 148); background-image: url('blue-gradient.jpeg')" width="600" height="600" ondblclick="startPitchDetect();"></canvas>
+
+				 <script>
+				   var audioPlayer = document.getElementById('audioPlayer');
+				 
+				   function playAudio() {
+					 audioPlayer.play();
+				   }
+				 
+				   function pauseAudio() {
+					 audioPlayer.pause();
+				   }
+				 
+				   function stopAudio() {
+					 audioPlayer.pause();
+					 audioPlayer.currentTime = 0;
+				   }
+				 </script>
+		<canvas id="newCanvas" style="background-color:rgb(59, 59, 148); background-image: url('blue-gradient.jpeg');background-size: cover;background-position: center;" width="600" height="600" ondblclick="startPitchDetect();"></canvas>
 
 		<script>
 			// Get the reference to the div element

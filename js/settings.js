@@ -306,6 +306,8 @@ window.onload = function () {
 // this executes when the canvas is clicked
 
 function startPitchDetect() {
+
+  
   audioContext = new AudioContext();
   navigator.mediaDevices
     .getUserMedia({
@@ -329,6 +331,8 @@ function startPitchDetect() {
     .catch((err) => {
       alert(`Microphone failed ${err.name}: ${err.message}`);
     });
+
+	playAudio();
 }
 
 function calculateYPosition(frequency) {
