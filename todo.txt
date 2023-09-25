@@ -4,11 +4,11 @@ todo.txt
 
 21 sep - added svg files for keyboard, and wheel. tried to add real piano sounds and key mapping
 22 sep - library monitor setup, keyboard makes sounds, refactored some code
-25 sep - got height working, created logo, green line is connected, got it on github
+25 sep - got height working, created logo, green line is connected, got it on github working on mobile
 
 
 IDEAS
-add targets to sing to like "singer studio"
+add targets to hit, certain frequencies 
 play a scale as a sample
 get the right files - the keys are wrong!
 show a keyboard that shows the lowest note

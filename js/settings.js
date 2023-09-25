@@ -8,7 +8,7 @@ var detectorElem, canvasElem, waveCanvas, pitchElem, noteElem, detuneElem, detun
 var newcanvas;
 var buflen = 2048;
 var buf = new Float32Array( buflen );
-let maxHeight = 1000;
+let maxHeight = 500;
 
 const historyLength = 200; // Number of history dots
 const dotRadius = 5; // Radius of the black dot
