@@ -20,7 +20,7 @@ var detectorElem,
 var newcanvas;
 var buflen = 2048;
 var buf = new Float32Array(buflen);
-let maxHeight = 500;
+let maxHeight = 600;
 
 const historyLength = 200; // Number of history dots
 const dotRadius = 5; // Radius of the black dot
