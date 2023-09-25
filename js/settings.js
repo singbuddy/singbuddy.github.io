@@ -160,7 +160,7 @@ function drawHorizontalLines(pitch) {
 
 	];
   
-	ctx.strokeStyle = 'silver';
+	ctx.strokeStyle = 'lightblue';
 	ctx.lineWidth = 1;
 	ctx.font = 'bold 30px Arial';
 	pitch = pitch ? Math.round(pitch, 2) : '';
@@ -179,7 +179,7 @@ function drawHorizontalLines(pitch) {
 	ctx.stroke();
   
 	// Draw text labels
-	ctx.font = '12px Arial';
+	ctx.font = '15px Arial';
 	frequencies.forEach(({ note }, index) => {
 	  ctx.fillText(note, 10, yPositions[index] - 5);
 	});
@@ -326,18 +326,19 @@ function updateCanvasWithPitch(pitch,note) {
         const circleY = y - circleRadius - 5; // Adjust the vertical position as needed
 
         // Draw the circle
-        ctx.strokeStyle = 'black';
+        ctx.strokeStyle = 'white';
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(circleX, circleY, circleRadius, 0, 2 * Math.PI);
         // ctx.stroke();
 
         // Draw the pitch text inside the circle
-        const pitchText = note; // Format the frequency value as desired
+        let pitchText = note; // Format the frequency value as desired
 
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'white';
         ctx.font = '22px Arial';
         ctx.textAlign = 'center';
+		if (pitchText === undefined) pitchText = "";
         ctx.fillText(pitchText, circleX, circleY + 4); // Adjust the vertical position of the text as needed
 
         }
@@ -358,7 +359,7 @@ function updateCanvasWithPitch(pitch,note) {
           
             if (distance <= 50) {
               ctx.beginPath();
-              ctx.strokeStyle = 'green';
+              ctx.strokeStyle = 'white';
               ctx.lineWidth = 5; // Set line thickness to 2 pixels
               ctx.moveTo(previousXPos, previousDot.y);
               ctx.lineTo(currentXPos, currentDot.y);
