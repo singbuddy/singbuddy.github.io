@@ -29,8 +29,9 @@ div.vague { color: lightgrey; }
 .flat #flat { display: inline; }
 .sharp #sharp { display: inline; }
 #newCanvas { border: 1px solid silver; 
-    width: 100vw;
-    height: 100vh;
+    width: auto;
+    height: auto;
+    aspect-ratio: 16/9; 
 
 }
 /* svg { position:absolute; top:70%;left:70%; width:25%;height:25%} */
