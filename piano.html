@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Piano Keys (Touch-Sensitive with Sound)</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="800" height="200"></canvas>
+
+    <script>
+      // Get the canvas element and its 2D rendering context
+      const canvas = document.getElementById('myCanvas');
+      const ctx = canvas.getContext('2d');
+
+      // Define piano key properties
+      const keyWidth = 50;
+      const keyHeight = 150;
+      const blackKeyWidth = keyWidth * 0.6;
+      const blackKeyHeight = keyHeight * 0.6;
+
+      // Array to store the frequencies of the piano keys starting from C3
+      const frequencies = [
+        130.81,  // C3
+        146.83,  // D3
+        164.81,  // E3
+        174.61,  // F3
+        196.00,  // G3
+        220.00,  // A3
+        246.94,  // B3
+      ];
+
+      // Function to draw the piano keys on the canvas
+      function drawKeys() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw white keys
+        for (let i = 0; i < 7; i++) {
+          const x = keyWidth * i;
+          const y = 0;
+
+          ctx.fillStyle = 'white';
+          ctx.fillRect(x, y, keyWidth, keyHeight);
+          ctx.strokeStyle = 'black';
+          ctx.strokeRect(x, y, keyWidth, keyHeight);
+        }
+
+        // Draw black keys
+        for (let i = 0; i < 5; i++) {
+          const x = keyWidth * i + (keyWidth - blackKeyWidth / 2);
+          const y = 0;
+
+          ctx.fillStyle = 'black';
+          ctx.fillRect(x, y, blackKeyWidth, blackKeyHeight);
+        }
+      }
+
+      // Function to handle key press event
+      function handleKeyPress(event) {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        // Check if a key is pressed
+        for (let i = 0; i < 7; i++) {
+          const keyX = keyWidth * i;
+          const keyY = 0;
+
+          if (x >= keyX && x <= keyX + keyWidth && y >= keyY && y <= keyY + keyHeight) {
+            playSound(frequencies[i]);
+            break;
+          }
+        }
+      }
+
+      // Function to play a sound of a given frequency
+      function playSound(frequency) {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = 'square'; // Set the oscillator type to sine wave
+        oscillator.frequency.value = frequency;
+        oscillator.connect(audioContext.destination);
+        oscillator.start();
+        setTimeout(function () {
+          oscillator.stop();
+          audioContext.close();
+        }, 250);
+      }
+
+      // Add event listeners for mouse click/touch
+      canvas.addEventListener('mousedown', handleKeyPress);
+      canvas.addEventListener('touchstart', function (event) {
+        event.preventDefault();
+        handleKeyPress(event.touches[0]);
+      });
+
+      // Initial drawing of the keys
+      drawKeys();
+    </script>
+  </body>
+</html>

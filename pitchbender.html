@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Note Player</title>
+  <script>
+    const notes = {
+      A0: 27.5,
+      A1: 55,
+      A2: 110,
+      A3: 220,
+      A4: 440,
+      A5: 880,
+      A6: 1760,
+      A7: 3520,
+      C1: 32.703,
+      C2: 65.406,
+      C3: 130.813,
+      C4: 261.626,
+      C5: 523.251,
+      C6: 1046.502,
+      C7: 2093.005,
+      C8: 4186.009,
+      'D#1': 38.891,
+      'D#2': 77.782,
+      'D#3': 155.563,
+      'D#4': 311.127,
+      'D#5': 622.254,
+      'D#6': 1244.508,
+      'D#7': 2489.016,
+      'F#1': 46.249,
+      'F#2': 92.499,
+      'F#3': 184.997,
+      'F#4': 369.994,
+      'F#5': 739.989,
+      'F#6': 1479.978,
+      'F#7': 2959.955
+    };
+
+    function playNoteAudio(note) {
+      if (notes.hasOwnProperty(note)) {
+        const frequency = notes[note];
+        playFrequency(frequency);
+      } else {
+        const adjustedNote = adjustPitch(note);
+        const frequency = calculateFrequency(adjustedNote);
+        console.log(`Playing adjusted note: ${adjustedNote}`);
+        playFrequency(frequency);
+      }
+    }
+
+    function adjustPitch(note) {
+      const baseNote = note[0];
+      const octave = parseInt(note.slice(1));
+      const baseFrequency = notes[baseNote + '4'];
+      const ratio = Math.pow(2, 1 / 12); // 12th root of 2
+      const factor = Math.pow(ratio, octave - 4);
+      const adjustedFrequency = baseFrequency * factor;
+      const adjustedNote = baseNote + octave;
+      return adjustedNote;
+    }
+
+    function calculateFrequency(note) {
+      const baseNote = note[0];
+      const octave = parseInt(note.slice(1));
+      const baseFrequency = notes[baseNote + '4'];
+      const ratio = Math.pow(2, 1 / 12); // 12th root of 2
+      const factor = Math.pow(ratio, octave - 4);
+      const frequency = baseFrequency * factor;
+      return frequency;
+    }
+
+    function playFrequency(frequency) {
+      const audioElement = new Audio();
+      audioElement.src = `./salamander/v16/${frequency}.wav`;
+      audioElement.play();
+    }
+  </script>
+</head>
+<body>
+  <button onclick="playNoteAudio('G4')">Play G4</button>
+</body>
+</html>
