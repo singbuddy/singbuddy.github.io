@@ -20,9 +20,9 @@ var detectorElem,
 var newcanvas;
 var buflen = 2048;
 var buf = new Float32Array(buflen);
-let maxHeight = 600;
+let maxHeight = 500;
 
-const historyLength = 200; // Number of history dots
+const historyLength = 500; // Number of history dots
 const dotRadius = 5; // Radius of the black dot
 const trailDotRadius = 5; // Radius of the trail dots
 const trailSpacing = 5; // Spacing between trail dots
@@ -332,7 +332,7 @@ function startPitchDetect() {
       alert(`Microphone failed ${err.name}: ${err.message}`);
     });
 
-	playAudio();
+	playAudio()
 }
 
 function calculateYPosition(frequency) {
