@@ -158,6 +158,7 @@ function autoCorrelate(buf, sampleRate) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
+let overTime = 0;
 function updatePitch(time) {
   var cycles = new Array();
   analyser.getFloatTimeDomainData(buf);
@@ -167,12 +168,15 @@ function updatePitch(time) {
   if (ac == -1) {
     // do nothing, so keep the canvas moving
     // detectorElem.className = "vague";
-    pitchElem.innerText = "";
-    noteElem.innerText = "-";
-    detuneElem.className = "";
-    detuneAmount.innerText = "no cents";
+    // pitchElem.innerText = "";
+    // noteElem.innerText = "-";
+    
+    // detuneElem.className = ".";
+    // detuneAmount.innerText = "";
 
-    updateCanvasWithPitch(0);
+
+      updateCanvasWithPitch(0);
+
   } else {
 
     detectorElem.className = "confident";
@@ -180,6 +184,7 @@ function updatePitch(time) {
 
     var note = noteFromPitch(pitch);
     updateCanvasWithPitch(Math.round(pitch), noteStrings[note % 12]);
+    pitchElem.innerText = Math.round(pitch,0) + " ";
     noteElem.innerHTML = noteStrings[note % 12];
     var detune = centsOffFromPitch(pitch, note);
 
@@ -210,9 +215,9 @@ function drawHorizontalLines(pitch) {
     { note: "C6", frequency: 261.63 * 4 },
   ];
 
-  ctx.strokeStyle = "lightblue";
-  ctx.lineWidth = 1;
-  ctx.font = "bold 30px Arial";
+  ctx.strokeStyle = "#333";
+  ctx.lineWidth = 0.3;
+  ctx.font = "bold 12px Arial";
   pitch = pitch ? Math.round(pitch, 2) : "";
 
   // Calculate the Y positions based on frequencies and canvas height
@@ -229,7 +234,7 @@ function drawHorizontalLines(pitch) {
   ctx.stroke();
 
   // Draw text labels
-  ctx.font = "25px Arial";
+  ctx.font = "15px Arial";
   frequencies.forEach(({ note }, index) => {
     ctx.fillText(note, 20, yPositions[index] - 5);
   });
@@ -343,7 +348,7 @@ function updateCanvasWithPitch(pitch, note) {
   // Clear the canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // drawHorizontalLines();
+  drawHorizontalLines();
 
 
 
@@ -355,10 +360,10 @@ function updateCanvasWithPitch(pitch, note) {
     const circleRadius = 30;
     const circleX = canvas.width - dotRadius - circleRadius; // Adjust the horizontal position as needed
     const circleY = y - circleRadius - 5; // Adjust the vertical position as needed
-
+    
     // Draw the circle
     ctx.strokeStyle = "white";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.arc(circleX, circleY, circleRadius, 0, 2 * Math.PI);
     // ctx.stroke();
@@ -369,12 +374,13 @@ function updateCanvasWithPitch(pitch, note) {
 
 
     ctx.fillStyle = "white";
-    ctx.font = "32px Arial";
+    ctx.font = "20px Arial";
     ctx.textAlign = "center";
     // if (pitchText === undefined) pitchText = "";
     ctx.fillText(pitchText, circleX-100, circleY + 4); // Adjust the vertical position of the text as needed
   }
   // draw the history dots
+  let lineThickness = 1;
   for (let i = 1; i < history.length; i++) {
     let currentDot = history[i];
     let previousDot = history[i - 1];
@@ -388,8 +394,8 @@ function updateCanvasWithPitch(pitch, note) {
     let distanceBetweenPoints = distance <= 50;
     if (distanceBetweenPoints && soundAudible) {
       ctx.beginPath();
-      ctx.strokeStyle = "white";
-      ctx.lineWidth = 5; // Set line thickness to 2 pixels
+      ctx.strokeStyle = "#d5b3ff";
+      ctx.lineWidth = lineThickness; // Set line thickness to 2 pixels
       ctx.moveTo(previousXPos, previousDot.y);
       ctx.lineTo(currentXPos, currentDot.y);
       ctx.stroke();

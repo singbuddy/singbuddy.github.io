@@ -13,20 +13,58 @@
     </div>
     <div id="mainbody">
 
-      <h1>Singing Basics - Pitch</h1>
+      <h1>Pitch Basics</h1>
       <p>Pitch is an essential element in singing. It refers to the perceived frequency of a sound, which is measured in hertz (Hz). The range of human hearing typically spans from <span>20 Hz</span> to <span>20,000 Hz</span>.</p>
       
       <p>In terms of vocal range, different individuals have varying capabilities. On a piano, the <span>C2</span> key represents the lowest note on the instrument. Most men can comfortably sing within this low range. However, it's important to note that individual vocal ranges can vary greatly, and some men may have a lower or higher range than the average.</p>
       
       <p>Women, on the other hand, generally have higher vocal ranges compared to men. While they may not be able to sing as low as the C2 note, they can often sing as high as <span>C5</span>, which is significantly higher on the piano.</p>
 
-      
-      
+      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" onclick="playAudio()">
+        <circle cx="25" cy="25" r="20" fill="#000" />
+        <polygon points="35,25 20,35 20,15" fill="#fff" />
+      </svg>
+    
+      <script>
+        function playAudio() {
+          var audio = new Audio("assets/tenor.mp3");
+          audio.play();
+        }
+      </script>
+    
+      <p class="instruction">Try singing as high as you can below and record the notes you're hitting</p>
+
+      <div id="detector" class="vague">
+        <div class="pitch"><span id="pitch">--</span>Hz</div>
+        <div class="note"><span id="note">--</span></div>
+        <canvas id="output" width="300" height="42"></canvas>
+        
+  
+  
+  
+  
+        <div id="detune">
+          <span id="detune_amt">--</span><span id="flat">cents ♭</span
+          ><span id="sharp">cents ♯</span>
+        </div>
+        
+  
+      </div>
+
 
       <canvas
       id="newCanvas" width="600" height="600" ondblclick="fullscreen()" onload="starting()" onclick="startPitchDetect()"
     ></canvas>
-    <div style="margin-bottom:-900px;color:white;">Listening</div>
+
+    
+
+    <h1>Passagio</h1>
+    <p>Passaggio is a fundamental concept in vocal technique, particularly in the realm of singing. It refers to the transitional areas within the human voice where shifts occur between different vocal registers. These registers, such as chest voice, head voice, and falsetto in males, and chest voice, middle voice, head voice, and whistle register in females, represent distinct ranges and qualities of vocal production. The passaggio serves as the bridge between these registers, allowing for smooth and controlled transitions as singers navigate through their vocal range.</p>
+
+    <p>In the male voice, there are typically two main passaggi. The first passaggio occurs around the E4-F4 note, where the voice transitions from the lower, fuller chest voice to the lighter, more resonant head voice. It is a critical point for male singers as they learn to balance and blend these registers. The second passaggio occurs around the F4-G4 note, marking the transition from the head voice to the upper range or falsetto. Here, singers must navigate the shift in vocal coordination to maintain a consistent and connected sound.</p>
+
+    <p>For female voices, there are generally three passaggi to navigate. The first passaggio, around the E4-F4 note, involves the transition from the lower chest voice to the middle voice. This area requires careful attention to achieve a balanced and controlled sound. The second passaggio, occurring around the F4-G4 note, marks the shift from the middle voice to the brighter and more resonant head voice. Finally, the third passaggio is found around the B4-C5 note, where the voice transitions from the head voice to the upper range or whistle register. Female singers must develop skill and control to effectively manage these transitions and maintain a cohesive vocal range.</p>
+
 
     </div>
 
@@ -83,20 +121,7 @@
       });
     </script>
 
-    <div id="detector" class="vague">
-      <div class="pitch"><span id="pitch">--</span>Hz</div>
-      <div class="note"><span id="note">--</span></div>
-      <canvas id="output" width="300" height="42"></canvas>
-      <div id="detune">
-        <span id="detune_amt">--</span><span id="flat">cents ♭</span
-        ><span id="sharp">cents ♯</span>
-      </div>
-      <!-- <button id="button1" onclick="resize()"">resize</button> -->
-      <!-- <button id="button2" onclick="startPitchDetect()"">start</button> -->
-      <!-- <button id="button3" onclick="fullscreen()">fullscreen</button> -->
-      
 
-    </div>
 
     <script src="/js/settings2.js"></script>
   </body>
