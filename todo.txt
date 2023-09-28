@@ -6,13 +6,23 @@ todo.txt
 22 sep - library monitor setup, keyboard makes sounds, refactored some code
 25 sep - got height working, created logo, green line is connected, got it on github working on mobile
 
+27 sep - try very wide canvas idea
 
-IDEAS
+
+IDEAS 
+
+
+
+TARGET IDEAS
 add targets to hit, certain frequencies 
 play a scale as a sample
+make a random note generator that allows the user to sing to match
+
+
+
+KEYBOARD IDEAS
 get the right files - the keys are wrong!
 show a keyboard that shows the lowest note
-make a random note generator that allows the user to sing to match
 
 
 DIFF APPS

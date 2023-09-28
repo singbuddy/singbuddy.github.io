@@ -1,5 +1,5 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
-
+var alreadyStarted = false;
 var isPlaying = false;
 var audioContext,
   sourceNode,
@@ -20,9 +20,9 @@ var detectorElem,
 var newcanvas;
 var buflen = 2048;
 var buf = new Float32Array(buflen);
-let maxHeight = 600;
+let maxHeight = 400; // in hz
 
-const historyLength = 200; // Number of history dots
+const historyLength = 500; // Number of history dots
 const dotRadius = 5; // Radius of the black dot
 const trailDotRadius = 5; // Radius of the trail dots
 const trailSpacing = 5; // Spacing between trail dots
@@ -168,13 +168,12 @@ function updatePitch(time) {
     // do nothing, so keep the canvas moving
     // detectorElem.className = "vague";
     pitchElem.innerText = "";
-    noteElem.innerText = "";
+    noteElem.innerText = "-";
     detuneElem.className = "";
     detuneAmount.innerText = "no cents";
 
     updateCanvasWithPitch(0);
   } else {
-    // got a microhpone reading
 
     detectorElem.className = "confident";
     pitch = ac;
@@ -183,13 +182,6 @@ function updatePitch(time) {
     updateCanvasWithPitch(Math.round(pitch), noteStrings[note % 12]);
     noteElem.innerHTML = noteStrings[note % 12];
     var detune = centsOffFromPitch(pitch, note);
-
-    // Calculate blur intensity based on the detune value
-    // var blurIntensity = Math.abs(detune) / 30; // Adjust the divisor for desired blur effect
-    // console.log(blurIntensity);
-
-    // Apply blur using CSS
-    // document.getElementById('note').style.filter = `blur(${blurIntensity}px)`;
 
     if (detune == 0) {
       detuneElem.className = "";
@@ -209,9 +201,6 @@ function updatePitch(time) {
 function drawHorizontalLines(pitch) {
   const canvas = document.getElementById("newCanvas");
   const ctx = canvas.getContext("2d");
-  // make blue bg
-  // ctx.fillStyle = 'navy';
-  // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   const frequencies = [
     { note: "C2", frequency: 65.4 },
@@ -246,47 +235,43 @@ function drawHorizontalLines(pitch) {
   });
 }
 
-function enableCanvasResize(canvas) {
-  let isResizing = false;
-  let originalWidth, originalHeight;
-  let originalX, originalY;
 
-  // Add event listeners for mouse down, up, and move events
-  canvas.addEventListener("mousedown", startResize);
-  canvas.addEventListener("mouseup", stopResize);
-  canvas.addEventListener("mousemove", resize);
 
-  // Function to start resizing
-  function startResize(e) {
-    isResizing = true;
-    originalWidth = canvas.width;
-    originalHeight = canvas.height;
-    originalX = e.clientX;
-    originalY = e.clientY;
-  }
 
-  // Function to stop resizing
-  function stopResize() {
-    isResizing = false;
-  }
+function starting() {
+  // Retrieve the canvas element
+  const canvas = document.getElementById('newCanvas');
 
-  // Function to resize the canvas
-  function resize(e) {
-    if (!isResizing) return;
+  // Get the 2D rendering context
+  const ctx = canvas.getContext('2d');
 
-    // Calculate the change in mouse position
-    const deltaX = e.clientX - originalX;
-    const deltaY = e.clientY - originalY;
+  // Set the font properties
+  ctx.font = '31px Futura';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'white';
 
-    // Calculate the new width and height
-    const newWidth = originalWidth + deltaX;
-    const newHeight = originalHeight + deltaY;
+  // Set the initial message
+  let message = 'Click and start singing';
 
-    // Set the new width and height of the canvas
-    canvas.width = newWidth;
-    canvas.height = newHeight;
-  }
+  // Draw the message on the canvas
+  ctx.fillText(message, canvas.width / 2, canvas.height / 2);
+
+  // Add a click event listener to the canvas
+  canvas.addEventListener('click', function() {
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Update the message or perform any other actions
+    message = 'Go!!!';
+
+    // Draw the updated message on the canvas
+    ctx.fillText(message, canvas.width / 2, canvas.height / 2);
+  });
 }
+
+// Execute the starting() function when the DOM content is loaded
+document.addEventListener('DOMContentLoaded', starting);
+
 
 window.onload = function () {
   audioContext = new AudioContext();
@@ -306,8 +291,8 @@ window.onload = function () {
 // this executes when the canvas is clicked
 
 function startPitchDetect() {
-
-  
+  if (alreadyStarted) return;
+  alreadyStarted = true;
   audioContext = new AudioContext();
   navigator.mediaDevices
     .getUserMedia({
@@ -332,11 +317,14 @@ function startPitchDetect() {
       alert(`Microphone failed ${err.name}: ${err.message}`);
     });
 
-	playAudio();
+  // playAudio();
+
 }
 
 function calculateYPosition(frequency) {
-  const normalizedY = (frequency - 20) / (20000 - 20);
+  let top = 20000;
+  let bottom = 20;
+  const normalizedY = (frequency - bottom) / (top - bottom);
   return normalizedY;
 }
 
@@ -345,10 +333,7 @@ function updateCanvasWithPitch(pitch, note) {
   const ctx = canvas.getContext("2d");
 
   let y = (1 - pitch / maxHeight) * canvas.height;
-  // y = calculateYPosition(y);
-  // console.log(y)
 
-  if (y == 600) y = -100;
 
   // Add current position to the history array
   history.unshift({ x: canvas.width - dotRadius, y: y });
@@ -359,19 +344,15 @@ function updateCanvasWithPitch(pitch, note) {
   // Clear the canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  drawHorizontalLines();
+  // drawHorizontalLines();
+
+
+
+
 
   if (y == 600) {
     // console.log('bad');
   } else {
-    // Draw the black dot
-    // ctx.fillStyle = 'black';
-    // ctx.beginPath();
-    // ctx.arc(canvas.width - dotRadius, y, dotRadius, 0, 2 * Math.PI);
-    // ctx.fill();
-
-    ///////
-
     const circleRadius = 30;
     const circleX = canvas.width - dotRadius - circleRadius; // Adjust the horizontal position as needed
     const circleY = y - circleRadius - 5; // Adjust the vertical position as needed
@@ -384,24 +365,29 @@ function updateCanvasWithPitch(pitch, note) {
     // ctx.stroke();
 
     // Draw the pitch text inside the circle
-    let pitchText = note; // Format the frequency value as desired
+    // debugger;
+    let pitchText = note + " " + Math.round(y,0)  ; // Format the frequency value as desired
+
 
     ctx.fillStyle = "white";
-    ctx.font = "22px Arial";
+    ctx.font = "32px Arial";
     ctx.textAlign = "center";
-    if (pitchText === undefined) pitchText = "";
-    ctx.fillText(pitchText, circleX, circleY + 4); // Adjust the vertical position of the text as needed
+    // if (pitchText === undefined) pitchText = "";
+    ctx.fillText(pitchText, circleX-100, circleY + 4); // Adjust the vertical position of the text as needed
   }
-
+  // draw the history dots
   for (let i = 1; i < history.length; i++) {
-    const currentDot = history[i];
-    const previousDot = history[i - 1];
-    const currentXPos = currentDot.x - trailSpacing * i;
-    const previousXPos = previousDot.x - trailSpacing * (i - 1);
+    let currentDot = history[i];
+    let previousDot = history[i - 1];
+    let currentXPos = currentDot.x - trailSpacing * i;
+    let previousXPos = previousDot.x - trailSpacing * (i - 1);
 
-    const distance = Math.abs(currentDot.y - previousDot.y);
+    let distance = Math.abs(currentDot.y - previousDot.y);
 
-    if (distance <= 50) {
+
+    let soundAudible = currentDot.y != canvas.height ? true : false;
+    let distanceBetweenPoints = distance <= 50;
+    if (distanceBetweenPoints && soundAudible) {
       ctx.beginPath();
       ctx.strokeStyle = "white";
       ctx.lineWidth = 5; // Set line thickness to 2 pixels
