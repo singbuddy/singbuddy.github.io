@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Singing App</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" href="data:," />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+  </head>
+  <body>
+    <div id="sidenav">
+      <!-- hello!! -->
+    </div>
+    <div id="mainbody">
+
+      <h1>Singing Basics - Pitch</h1>
+      <p>Pitch is an essential element in singing. It refers to the perceived frequency of a sound, which is measured in hertz (Hz). The range of human hearing typically spans from <span>20 Hz</span> to <span>20,000 Hz</span>.</p>
+      
+      <p>In terms of vocal range, different individuals have varying capabilities. On a piano, the <span>C2</span> key represents the lowest note on the instrument. Most men can comfortably sing within this low range. However, it's important to note that individual vocal ranges can vary greatly, and some men may have a lower or higher range than the average.</p>
+      
+      <p>Women, on the other hand, generally have higher vocal ranges compared to men. While they may not be able to sing as low as the C2 note, they can often sing as high as <span>C5</span>, which is significantly higher on the piano.</p>
+
+      
+      
+
+      <canvas
+      id="newCanvas" width="600" height="600" ondblclick="fullscreen()" onload="starting()" onclick="startPitchDetect()"
+    ></canvas>
+    <div style="margin-bottom:-900px;color:white;">Listening</div>
+
+    </div>
+
+    <script>
+      // Get the reference to the div element
+      var newCanvas = document.getElementById("newCanvas");
+
+      function fullscreen() {
+        // Get a reference to the canvas element
+        var canvas = document.getElementById('newCanvas');
+
+        if (!document.fullscreenElement && !document.mozFullScreenElement &&
+            !document.webkitFullscreenElement && !document.msFullscreenElement) {
+          // Enter fullscreen mode
+          if (canvas.requestFullscreen) {
+            canvas.requestFullscreen();
+          } else if (canvas.mozRequestFullScreen) {
+            canvas.mozRequestFullScreen();
+          } else if (canvas.webkitRequestFullscreen) {
+            canvas.webkitRequestFullscreen();
+          } else if (canvas.msRequestFullscreen) {
+            canvas.msRequestFullscreen();
+          }
+        } else {
+          // Exit fullscreen mode
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+        }
+      }
+
+
+      // Function to update the dimensions of the div
+      function updateCanvasSize() {
+        // newCanvas.style.width = window.innerWidth + "px";
+        // newCanvas.style.height = window.innerHeight + "px";
+      }
+      function resize() { 
+        updateCanvasSize();
+      }
+      // Initial call to set the div size
+      updateCanvasSize();
+
+      // Add event listener for window resize
+      window.addEventListener('resize', function() {
+        // Call the updateCanvasSize function when the window is resized
+        updateCanvasSize();
+      });
+    </script>
+
+    <div id="detector" class="vague">
+      <div class="pitch"><span id="pitch">--</span>Hz</div>
+      <div class="note"><span id="note">--</span></div>
+      <canvas id="output" width="300" height="42"></canvas>
+      <div id="detune">
+        <span id="detune_amt">--</span><span id="flat">cents ♭</span
+        ><span id="sharp">cents ♯</span>
+      </div>
+      <!-- <button id="button1" onclick="resize()"">resize</button> -->
+      <!-- <button id="button2" onclick="startPitchDetect()"">start</button> -->
+      <!-- <button id="button3" onclick="fullscreen()">fullscreen</button> -->
+      
+
+    </div>
+
+    <script src="/js/settings2.js"></script>
+  </body>
+</html>
